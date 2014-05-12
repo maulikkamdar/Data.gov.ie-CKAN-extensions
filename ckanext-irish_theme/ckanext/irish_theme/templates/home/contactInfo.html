@@ -1,0 +1,31 @@
+{% extends "page.html" %}
+
+{% block subtitle %}{{ _('Contact Us') }}{% endblock %}
+
+{% block breadcrumb_content %}
+  <li class="active">{% link_for _('Contact Us'), controller='ckanext.irish_theme.controller:IrishThemeController', action='contact' %}</li>
+{% endblock %}
+
+{% block primary %}
+<div class="panel panel-default">
+{% block primary_content %}
+  <article class="module col-sm-12">
+    <h1 class="page-heading">{{ _('Contact Us') }}</h1>
+    <p>Data.gov.ie is managed by the Government Reform Unit at the Department of Public Expenditure and Reform.</p>
+
+<blockquote>Department of Public Expenditure &amp; Reform,<br />
+Government Buildings,<br />
+Upper Merrion St.,<br />
+Dublin 2, Ireland.<br />
++353 1 6767571</blockquote>
+
+<p>For technical matters relating to the operation of the website, please contact: <a href="mailto:webmasterper@per.gov.ie">webmasterper@per.gov.ie</a></p>
+
+<p>For inquiries relating to the contents and metadata of this website, please contact: <a href="mailto:Evelyn.O'Connor@per.gov.ie">Evelyn.O'Connor@per.gov.ie</a></p>
+
+<p>Please note that the data.gov.ie team cannot answer inquiries relating to the subject matter of specific datasets. If you have questions about the contents of a dataset, please directly contact the agency that publishes the data.</p>
+  </article>
+{% endblock %}
+</div>
+{% endblock %}
+

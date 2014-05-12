@@ -1,0 +1,29 @@
+{% extends "package/read_base.html" %}
+
+{% set pkg = c.pkg %}
+
+{% block subtitle %}{{ _('Related') }} - {{ super() }}{% endblock %}
+
+{% block primary_content_inner %}
+  <div class="row">
+  <div class="col-sm-6">
+    <p class="lead">{% block page_heading %}{{ _('Related Media for {dataset}').format(dataset=h.dataset_display_name(c.pkg)) }}{% endblock %}</p>
+  </div>
+  <div class="col-sm-6">
+    {% block form_actions %}
+    <div class="form-actions pull-right">
+      {% link_for _('Add Related Item'), controller='related', action='new', id=pkg.name, class_='btn btn-primary' %}
+    </div>
+  {% endblock %}
+  </div>
+</div>
+<div class="row">
+  {% block related_list %}
+    {% if c.pkg.related %}
+      {% snippet "related/snippets/related_list.html", related_items=c.pkg.related, pkg_id=c.pkg.name %}
+    {% else %}
+      <p class="empty">{{ _('No related items') }}</p>
+    {% endif %}
+  {% endblock %}
+</div>
+{% endblock %}

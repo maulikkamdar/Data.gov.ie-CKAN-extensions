@@ -1,0 +1,18 @@
+<br><br><br><hr style="1px solid black">
+<div class="row">
+  {% block footer_content %}
+    <div class="col-sm-12" align="center">
+      {% block footer_nav %}
+        <a href="{{ h.url_for(controller='home', action='about') }}">{{ _('About {0}').format(g.site_title) }}</a>&nbsp;&nbsp;|&nbsp;
+        <a href="{{ h.url_for(controller='ckanext.irish_theme.controller:IrishThemeController', action='contact') }}">Contact Us</a>&nbsp;&nbsp;|&nbsp;
+        <a href="{{ h.url_for(controller='ckanext.feedback.controller:FeedbackController', action='feedback') }}">Data Requests</a>
+      {% endblock %}
+    </div>
+  {% endblock %}
+  <hr>
+  {% block footer_debug %}
+    {% if g.debug %}
+      {% include 'snippets/debug.html' %}
+    {% endif %}
+  {% endblock %}
+</div>          

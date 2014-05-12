@@ -1,0 +1,57 @@
+{% extends 'package/base.html' %}
+
+{% set pkg = c.pkg_dict %}
+{% set pkg_dict = c.pkg_dict %}
+
+{% block breadcrumb_content_selected %}{% endblock %}
+
+{% block breadcrumb_content %}
+  {{ super() }}
+  {% if pkg %}
+    <li class="active">{% link_for _('Edit'), controller='package', action='edit', id=pkg.name %}</li>
+  {% endif %}
+{% endblock %}
+
+{% block primary %}
+  <div class="panel panel-default">
+    {% block primary_content %}
+      <article class="module col-sm-12">
+        {% block page_header %}
+          <header class="module-content page-header">
+            {% if self.content_action() | trim %}
+              <div class="content_action" align="right">
+                {% block content_action %}
+                  {% link_for _('View dataset'), controller='package', action='read', id=pkg.name, class_='btn btn-primary', icon='eye-open' %}
+                {% endblock %}
+              </div>
+            {% endif %}
+            <ul class="nav nav-tabs hidden-xs">
+              {% block content_primary_nav %}
+                {{ h.build_nav_icon('dataset_edit', _('Edit metadata'), id=pkg.name) }}
+                {{ h.build_nav_icon('dataset_resources', _('Resources'), id=pkg.name) }}
+              {% endblock %}
+            </ul>
+            <!-- Custom Menu for Mobile Screens -->
+            <ul class="nav nav-tabs visible-xs">
+               {{ h.build_nav_icon('dataset_edit', _(''), id=pkg.name) }}
+               {{ h.build_nav_icon('dataset_resources', _(''), id=pkg.name) }}
+            </ul>
+          </header>
+        {% endblock %}
+        <div class="module-content">
+          {% if self.page_primary_action() | trim %}
+            <div class="page_primary_action">
+              {% block page_primary_action %}{% endblock %}
+            </div>
+          {% endif %}
+          {% block primary_content_inner %}
+          {% endblock %}
+        </div>
+      </article>
+    {% endblock %}
+  </div><!--/row-->
+{% endblock %}
+
+{% block secondary_content %}
+  {% snippet 'package/snippets/info.html', pkg=pkg, hide_follow_button=true %}
+{% endblock %}

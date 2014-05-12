@@ -1,0 +1,20 @@
+{% ckan_extends %}
+
+{% block meta %}
+  {{ super() }}
+  <meta name="description" value="Data.gov.ie" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="author" content="Maulik R. Kamdar">
+  <meta name="author" content="Richard Cyganiak">
+  <meta name="keywords" content="Maulik R. Kamdar, Maulik, Kamdar, Richard, Cyganiak, Stefan, Decker, Deirdre, Lee, Semantic Web, Linked, Open, Data, Ireland, Irish, Government, CKAN, Government, Data.gov, Information, Digital, Enterprise, Research, Insight, Center, Analytics, Galway" />
+{% endblock %}
+
+{% block styles %}
+  {% resource 'irish_theme/layout.css' %}
+  {% resource 'irish_theme/style.css' %}
+{% endblock %}
+
+
+{% block bodytag %}
+  {{ super() }}data-role="page"
+{% endblock %}

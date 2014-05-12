@@ -1,0 +1,31 @@
+{% extends "package/read_base.html" %}
+{% import 'macros/form.html' as form %}
+
+{% block primary_content_inner %}
+  <div class="row">
+  <div class="col-sm-6">
+    <p class="lead">{{ _('Groups') }}</p>
+  </div>
+  <div class="col-sm-6">
+  {% if c.group_dropdown %}
+    <form method="post" class="pull-right form-horizontal" style="vertical-align:middle">
+      <select id="field-add_group" name="group_added" data-module="autocomplete">
+        {% for option in c.group_dropdown %}
+          <option value="{{ option[0] }}"> {{ option[1] }}</option>
+        {% endfor %}
+      </select>
+      <button type="submit" class="btn btn-primary" title="{{ _('Associate this group with this dataset') }}">{{ _('Add to group') }}</button>
+    </form>
+  {% endif %}
+  </div>
+  </div>
+  <div class="row">
+  {% if c.pkg_dict.groups %}
+    <form method="post">
+      {% snippet 'group/snippets/group_list.html', groups=c.pkg_dict.groups %}
+    </form>
+  {% else %}
+    <p class="empty">{{ _('There are no groups associated with this dataset') }}</p>
+  {% endif %}
+  </div>
+{% endblock %}

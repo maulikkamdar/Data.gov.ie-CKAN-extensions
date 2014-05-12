@@ -1,0 +1,18 @@
+{% set tags = h.get_facet_items_dict('tags', limit=3) %}
+{% set placeholder = _('e.g. Employment') %}
+
+<form class="form-horizontal" method="get" action="{% url_for controller='package', action='search' %}">
+    <h4>{{ _("Search Data") }}</h4>
+    <div class="input-group text-center">
+      <input type="text" class="form-control input-lg" name="q" value="" autocomplete="off" placeholder="{{ placeholder }}" />
+      <span class="input-group-btn">
+        <button class="btn btn-lg btn-primary" type="submit" title='{{ _("Search") }}'><i class="icon-search"></i></button>
+      </span>
+    </div>
+  </form>
+  <div class="tags">
+    <h3>{{ _('Popular Tags') }}</h3>
+    {% for tag in tags %}
+      <a class="tag" href="{% url_for controller='package', action='search', tags=tag.name %}">{{ h.truncate(tag.display_name, 22) }}</a>
+    {% endfor %}
+  </div>

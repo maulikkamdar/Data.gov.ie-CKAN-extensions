@@ -1,0 +1,2 @@
+ckanext
+ckanext.irish_theme

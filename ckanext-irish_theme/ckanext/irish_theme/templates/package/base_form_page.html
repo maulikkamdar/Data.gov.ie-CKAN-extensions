@@ -1,0 +1,27 @@
+{% extends "package/edit_base.html" %}
+
+{% block primary %}
+<div class="panel panel-default">
+{% block primary_content %}
+  <section class="module col-sm-12">
+    {% block page_header %}{% endblock %}
+    <div class="module-content">
+      {% block primary_content_inner %}
+        {% block form %}{{ c.form | safe }}{% endblock %}
+      {% endblock %}
+    </div>
+  </section>
+{% endblock %}
+</div>
+{% endblock %}
+
+
+{% block secondary_content %}
+  {% block info_module %}
+  {% endblock %}
+
+  {% block resources_module %}
+    {# TODO: Pass in a list of previously created resources and the current package dict #}
+    {% snippet "package/snippets/resources.html", pkg={}, action='new_resource' %}
+  {% endblock %}
+{% endblock %}

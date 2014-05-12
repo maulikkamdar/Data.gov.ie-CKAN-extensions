@@ -1,0 +1,5 @@
+
+        [ckan.plugins]
+        # Add plugins here, e.g.
+        irish_theme=ckanext.irish_theme.plugin:IrishThemePlugin
+    

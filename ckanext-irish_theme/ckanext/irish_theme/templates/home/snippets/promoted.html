@@ -1,0 +1,19 @@
+{% set intro = g.site_intro_text %}
+
+{% if intro %}
+  <div class="panel-body">
+    {{ h.render_markdown(intro) }}
+  </div>
+{% else %}
+  <div class="panel-body">  
+    <p class="lead">{{ _("Welcome to CKAN") }}</p>
+    <p>
+        {% trans %}This is a nice introductory paragraph about CKAN or the site
+        in general. We don't have any copy to go here yet but soon we will
+        {% endtrans %}
+    </p>
+    <a class="panel-image" href="#">
+      <img src="http://placehold.it/420x220" class="img-responsive" />
+    </a>
+  </div>
+{% endif %}

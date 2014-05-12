@@ -1,0 +1,104 @@
+{% block header_wrapper %}
+<div class="navbar navbar-blue navbar-static-top">  
+  {% block header_debug %}
+    {% if g.debug and not g.debug_supress_header %}
+      <div class="debug">Controller : {{ c.controller }}<br/>Action : {{ c.action }}</div>
+    {% endif %}
+  {% endblock %}
+  <div class="navbar-header">
+     <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+     </button>
+     <hgroup class="{{ g.header_class }}">
+     {% block header_logo %}
+       {% if g.site_logo %}
+         <a class="navbar-brand" href="{{ h.url('home') }}"><img src="{{ h.url_for_static(g.site_logo) }}" alt="{{ g.site_title }} Logo" title="{{ g.site_title }} Logo" /></a>
+       {% else %}
+         <h1><a href="{{ h.url('home') }}">{{ g.site_title }}</a></h1>{% if g.site_description %}<h2>{{ g.site_description }}</h2>{% endif %}
+       {% endif %}
+     {% endblock %}
+     </hgroup>              
+   </div>
+   <nav class="collapse navbar-collapse" role="navigation">
+     {% block header_site_search %}
+       <form class="navbar-form navbar-left" action="{% url_for controller='package', action='search' %}" method="get">
+         <div class="input-group input-group-sm" style="max-width:360px;">
+           <input type="text" class="form-control" placeholder="{{ _('Search datasets...') }}" name="q" id="field-sitewide-search">
+           <div class="input-group-btn">
+             <button class="btn btn-default" type="submit"><i class="icon-search"></i></button>
+           </div>
+         </div>
+       </form>                                                                                                                                                                                 
+     {% endblock %}
+     {% block header_site_navigation %}
+       <ul class="nav navbar-nav">
+       {% block header_site_navigation_tabs %}
+         {{ h.build_nav_main(
+           ('search', _('Datasets')),
+           ('organizations_index', _('Organizations')),
+           ('group_index', _('Groups')),
+           ('about', _('About'))
+         ) }}
+       {% endblock %}
+       </ul>
+     {% endblock %}
+     {% block header_account %}
+       {% block header_account_container_content %}
+         {% if c.userobj %}
+           <ul class="nav navbar-nav navbar-right">
+             <li class="dropdown">
+               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-home icon-large"></i></a>
+                 <ul class="dropdown-menu">
+                   {% block header_account_logged %}
+                     {% if c.userobj.sysadmin %}
+                       <li>
+                         <a href="{{ h.url_for(controller='admin', action='index') }}" title="{{ _('Sysadmin settings') }}"><i class="icon-legal icon-large"></i>&nbsp;&nbsp;<span>{{ _('Administrator') }}</span></a>
+                       </li>
+                     {% endif %}
+                       <li>
+                         <a href="{{ h.url_for(controller='user', action='read', id=c.userobj.name) }}" class="image" title="{{ _('View profile') }}">
+                           {{ h.gravatar((c.userobj.email_hash if c and c.userobj else ''), size=22) }}&nbsp;&nbsp;<span>{{ c.userobj.display_name }}</span>
+                         </a>
+                       </li>
+                       {% set new_activities = h.new_activities() %}
+                       <li class="notifications {% if new_activities > 0 %}notifications-important{% endif %}">
+                         {% set notifications_tooltip = ngettext('Dashboard (%(num)d new item)', 'Dashboard (%(num)d new items)', new_activities) %}
+                         <a href="{{ h.url_for(controller='user', action='dashboard') }}" title="{{ notifications_tooltip }}"><i class="icon-dashboard icon-large"></i>&nbsp;&nbsp;<span>{{ new_activities }}&nbsp;{{ _('Notifications') }}</span></a>
+                       </li>
+                       {% block header_account_settings_link %}
+                       <li>
+                         <a href="{{ h.url_for(controller='user', action='edit', id=c.userobj.name) }}" title="{{ _('Edit settings') }}"><i class="icon-cog icon-large"></i>&nbsp;&nbsp;<span>{{ _('Settings') }}</span></a>
+                       </li>
+                       {% endblock %}
+                       {% block header_account_log_out_link %}
+                       <li>
+                         <a href="{{ h.url_for('/user/_logout') }}" title="{{ _('Log out') }}"><i class="icon-signout icon-large"></i>&nbsp;&nbsp;{{ _('Logout') }}</a>
+                       </li>
+                       {% endblock %}
+                   {% endblock %}
+                 </ul>
+             </li>
+           </ul>
+         {% else %}
+           <ul class="nav navbar-nav navbar-right">
+             <li class="dropdown">
+               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-user icon-large"></i></a>
+                 <ul class="dropdown-menu">
+                   {% block header_account_notlogged %}
+                     <li>{% link_for _('Log in'), controller='user', action='login' %}</li>
+                     {% if h.check_access('user_create') %}
+                     <li>{% link_for _('Register'), controller='user', action='register', class_='sub' %}</li>
+                     {% endif %}
+                   {% endblock %}
+                 </ul>
+             </li>
+           </ul>
+         {% endif %}
+       {% endblock %}
+     {% endblock %}
+   </nav>
+</div>
+{% endblock %}

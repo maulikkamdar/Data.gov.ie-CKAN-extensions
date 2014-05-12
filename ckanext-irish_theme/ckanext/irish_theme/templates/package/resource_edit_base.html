@@ -1,0 +1,72 @@
+{% extends "package/base.html" %}
+
+{% set logged_in = true if c.userobj else false %}
+{% set res = c.resource %}
+
+{% block breadcrumb_content_selected %}{% endblock %}
+
+{% block breadcrumb_content %}
+  {{ super() }}
+  {% if res %}
+    <li>{% link_for h.resource_display_name(res)|truncate(30), controller='package', action='resource_read', id=pkg.name, resource_id=res.id %}</li>
+    <li class="active"><a href="">{{ _('Edit') }}</a></li>
+  {% endif %}
+{% endblock %}
+
+{% block primary %}
+  <div class="panel panel-default">
+    {% block primary_content %}
+      <article class="module col-sm-12">
+        {% block page_header %}
+          <header class="module-content page-header">
+            {% if self.content_action() | trim %}
+              <div class="content_action" align="right">
+                {% block content_action %}
+                  {% link_for _('All resources'), controller='package', action='resources', id=pkg.name, class_='btn btn-primary', icon='arrow-left' %}
+                  {% if res %}
+                    {% link_for _('View resource'), controller='package', action='resource_read', id=pkg.name, resource_id=res.id, class_='btn btn-primary', icon='eye-open' %}
+                  {% endif %}
+                {% endblock %}
+              </div>
+            {% endif %}
+            <ul class="nav nav-tabs hidden-xs">
+              {% block content_primary_nav %}
+                {{ h.build_nav_icon('resource_edit', _('Edit resource'), id=pkg.name, resource_id=res.id) }}
+                 {% if 'datapusher' in g.plugins %}
+                   {{ h.build_nav_icon('resource_data', _('DataStore'), id=pkg.name, resource_id=res.id) }}
+                 {% endif %}
+              {% endblock %}
+            </ul>
+            <!-- Custom Menu for Mobile Screens -->
+            <ul class="nav nav-tabs visible-xs">
+               {{ h.build_nav_icon('resource_edit', _(''), id=pkg.name, resource_id=res.id) }}
+               {% if 'datapusher' in g.plugins %}
+                 {{ h.build_nav_icon('resource_data', _(''), id=pkg.name, resource_id=res.id) }}
+               {% endif %}
+            </ul>
+          </header>
+        {% endblock %}
+        <div class="module-content">
+          {% if self.page_primary_action() | trim %}
+            <div class="page_primary_action">
+              {% block page_primary_action %}{% endblock %}
+            </div>
+          {% endif %}
+          {% block primary_content_inner %}
+            <h1 class="hide-heading">{% block form_title %}{{ _('Edit resource') }}{% endblock %}</h1>
+            {% block form %}{% endblock %}
+          {% endblock %}
+        </div>
+      </article>
+    {% endblock %}
+  </div><!--/row-->
+{% endblock %}
+
+{% block secondary_content %}
+  {% snippet 'package/snippets/resource_info.html', res=res %}
+{% endblock %}
+
+{% block scripts %}
+  {{ super() }}
+  {% resource 'vendor/fileupload' %}
+{% endblock %}
